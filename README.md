@@ -27,6 +27,12 @@
 1. 工程需要勾中 Remote notification 和 Push Notifications，这样才能支持；
 2. 友盟推送需要在 adhoc 或 Distribution 环境下才可以收到推送；
 
+# 安卓离线唤醒的原理（其他中间商的估计也要这么）
+
+1. 把信息发给友盟后台，后台再转发给厂商的后台，厂商再把信息推送给手机，由于是厂商的通道，所以绝对能通知到；
+2. 用户点击消息后，由于指定唤醒的界面是 com.github.flutterumpush.UmengOtherPushActivity.java，而不是 MainActivity.java，所以 flutter 和 dart 都没初始化，但是 UmengApplication.java 就初始化了，这是友盟相关 Token 已经生成，然而，由于 flutter 没有初始化，导致无法执行 onToken、onMessage 函数，所以我把 token、message 都缓存到 SharedPreferences。然后根据 URL_SCHEME 唤醒自己；
+3. 这时候才真正实例化 MainActivity.java，也就是初始化 flutter 和 dart，等初始化完毕，在 configure 函数把 SharedPreferences 的东西取出来，执行 onToken、onMessage。
+
 ## Getting Started
 
 For help getting started with Flutter, view our online
