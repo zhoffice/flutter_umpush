@@ -1,6 +1,7 @@
 # flutter_umpush
 
-友盟推送、友盟统计的 flutter 插件。
+友盟推送、友盟统计的 flutter 插件，使用公司帐号反复测试都是可用的。
+
 这个插件是从我们公司的 cordova 插件分离出来的，集成到 flutter 之后，使用公司的帐号测试可使用，安卓和 ios 都没问题。
 后来，担心泄漏公司帐号，我又重新建了一个项目。目前 flutter clean && flutter build apk && flutter build ios 都没问题。只是没有使用真实帐号测试过。
 
@@ -17,7 +18,6 @@
 1. so 文件只能使用 armeabi-v7a
    ndk {
    moduleName "app"
-   //设置支持的 SO 库架构
    abiFilters 'armeabi-v7a'//,'armeabi','arm64-v8a'
    }
 2. 仿照 example/android/app/AndroidManifest.xml，把友盟帐号填写上去；
