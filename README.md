@@ -28,12 +28,15 @@
 3. 必要的时候修改一下安卓 AndroidManifest.xml 的包名和 build.gradle 里面的 aplicationId，
 
 4. 离线唤醒  需要申请小米、华为、魅族的帐号，请严格参考这个文档进行：https://developer.umeng.com/docs/66632/detail/66744#h1--push-6
+
    有不懂就问他们的在线客服吧。
 
 # ios 平台
 
 1. 工程需要勾中 Remote notification 和 Push Notifications，这样才能支持；
-2. 友盟推送需要在 adhoc 或 distribution 环境下才可以收到推送。我使用 adhoc 发布的，上传到这里https://www.pgyer.com/app/publish，然后下载安装，测试没问题，离线唤醒没问题。
+2. 友盟推送需要在 adhoc 或 distribution 环境下才可以收到推送。我使用 adhoc 发布的，上传到这里https://www.pgyer.com/app/publish，
+
+然后下载安装，测试没问题，离线唤醒没问题。
 
 # 安卓离线唤醒的原理（其他中间商的估计也要这么）
 
