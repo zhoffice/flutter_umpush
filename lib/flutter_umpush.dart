@@ -47,21 +47,22 @@ class FlutterUmpush {
     switch (call.method) {
       case "onToken":
         final String token = call.arguments;
+        print('FlutterUmpush onToken: $token');
         _onToken(token);
         return null;
       case "onMessage":
         final String message = call.arguments;
-        print('onMessage: $message');
+        print('FlutterUmpush onMessage: $message');
         _onMessage(message);
         return null;
       case "onLaunch":
         final String message = call.arguments;
-        print('onLaunch: $message');
+        print('FlutterUmpush onLaunch: $message');
         _onLaunch(call.arguments.cast<String>());
         return null;
       case "onResume":
         final String message = call.arguments;
-        print('onResume: $message');
+        print('FlutterUmpush onResume: $message');
         _onResume(call.arguments.cast<String>());
         return null;
       default:

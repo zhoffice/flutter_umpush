@@ -22,28 +22,28 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPushState() async {
     _flutterUmpush.configure(
       onMessage: (String message) async {
-        print("onMessage: $message");
+        print("main onMessage: $message");
         setState(() {
           _pushData = message;
         });
         return true;
       },
       onLaunch: (String message) async {
-        print("onLaunch: $message");
+        print("main onLaunch: $message");
         setState(() {
           _pushData = message;
         });
         return true;
       },
       onResume: (String message) async {
-        print("onResume: $message");
+        print("main onResume: $message");
         setState(() {
           _pushData = message;
         });
         return true;
       },
       onToken: (String token) async {
-        print("onToken: $token");
+        print("main onToken: $token");
         setState(() {
           tokenController.text = token;
         });

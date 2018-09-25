@@ -6,23 +6,26 @@
 #import <UMCommonLog/UMCommonLogHeaders.h>
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-@interface FlutterUmpushPlugin ()<UNUserNotificationCenterDelegate>
+
+@interface FlutterUmpushPlugin () <UNUserNotificationCenterDelegate>
 @end
+
 #endif
 
-@implementation FlutterUmpushPlugin{
+@implementation FlutterUmpushPlugin {
     FlutterMethodChannel *_channel;
     NSDictionary *_launchNotification;
     BOOL _resumingFromBackground;
-
 }
-+ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"flutter_umpush"
-            binaryMessenger:[registrar messenger]];
-    FlutterUmpushPlugin *instance =[[FlutterUmpushPlugin alloc] initWithChannel:channel];
++ (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
+    NSLog(@"umeng_push_plugin registerWithRegistrar registrar: %@", registrar);
+    FlutterMethodChannel *channel = [FlutterMethodChannel
+            methodChannelWithName:@"flutter_umpush"
+                  binaryMessenger:[registrar messenger]];
+    FlutterUmpushPlugin *instance = [[FlutterUmpushPlugin alloc] initWithChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
     [registrar addApplicationDelegate:instance];
+    NSLog(@"umeng_push_plugin register ok");
 }
 
 - (instancetype)initWithChannel:(FlutterMethodChannel *)channel {
@@ -35,16 +38,17 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-  NSString *method = call.method;
-  if ([@"configure" isEqualToString:method]) {
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-    if (_launchNotification != nil) {
-      [_channel invokeMethod:@"onLaunch" arguments:_launchNotification];
+    NSLog(@"umeng_push_plugin handleMethodCall call: %@", call);
+    NSString *method = call.method;
+    if ([@"configure" isEqualToString:method]) {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        if (_launchNotification != nil) {
+            [_channel invokeMethod:@"onLaunch" arguments:_launchNotification];
+        }
+        result(nil);
+    } else {
+        result(FlutterMethodNotImplemented);
     }
-    result(nil);
-  } else {
-    result(FlutterMethodNotImplemented);
-  }
 }
 
 - (NSString *)convertToJsonData:(NSDictionary *)dict {
@@ -59,43 +63,46 @@
     return jsonString;
 
 }
+
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  if (_resumingFromBackground) {
-    [_channel invokeMethod:@"onResume" arguments:[self convertToJsonData:userInfo]];
-  } else {
+    NSLog(@"umeng_push_plugin didReceiveRemoteNotification userInfo: %@", userInfo);
+    NSLog(@"umeng_push_plugin call onMessage: %@", _channel);
     [_channel invokeMethod:@"onMessage" arguments:[self convertToJsonData:userInfo]];
-  }
 }
-- (BOOL)application:(UIApplication *)application
+
+- (BOOL)          application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSLog(@"umeng_push_plugin application didFinishLaunchingWithOptions %@", _launchNotification);
     // Override point for customization after application launch.
     [UMCommonLogManager setUpUMCommonLogManager];
     [UMConfigure setLogEnabled:YES];
-    
-    [UMConfigure initWithAppkey:@"从友盟后台拷贝你的APPID" channel:@"flutter"];
+
+    [UMConfigure initWithAppkey:@"你的友盟iOSAppKey" channel:@"flutter"];
     [MobClick event:@"flutter_ok"];
-    UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
+    NSLog(@"umeng_push_plugin application init umeng ok");
+    UMessageRegisterEntity *entity = [[UMessageRegisterEntity alloc] init];
     //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标
-    entity.types = UMessageAuthorizationOptionBadge|UMessageAuthorizationOptionAlert;
-    #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-    [UNUserNotificationCenter currentNotificationCenter].delegate=self;
-    #endif
-    [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted,   NSError * _Nullable error) {
+    entity.types = UMessageAuthorizationOptionBadge | UMessageAuthorizationOptionAlert;
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+#endif
+    [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted, NSError *_Nullable error) {
         if (granted) {
-        }else
-        {
+        } else {
         }
     }];
     _launchNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSLog(@"umeng_push didFinishLaunchingWithOptions %@", _launchNotification);
     return YES;
 }
+
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     _resumingFromBackground = YES;
+    NSLog(@"umeng_push_plugin applicationDidEnterBackground");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     _resumingFromBackground = NO;
+    NSLog(@"umeng_push_plugin applicationDidBecomeActive");
     application.applicationIconBadgeNumber = 1;
     application.applicationIconBadgeNumber = 0;
 }
@@ -104,6 +111,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 //iOS10新增：处理前台收到通知的代理方法
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    NSLog(@"umeng_push_plugin userNotificationCenter willPresentNotification");
     NSDictionary *userInfo = notification.request.content.userInfo;
     if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [UMessage setAutoAlert:NO];
@@ -119,6 +127,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 //iOS10新增：处理后台点击通知的代理方法
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    NSLog(@"umeng_push_plugin userNotificationCenter didReceiveNotificationResponse");
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     if ([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         //应用处于后台时的远程推送接受
@@ -131,14 +140,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 }
 
 #endif
+
 - (NSString *)stringDevicetoken:(NSData *)deviceToken {
     NSString *token = [deviceToken description];
     NSString *pushToken = [[[token stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSLog(@"umeng_push token: %@", pushToken);
+    NSLog(@"umeng_push_plugin token: %@", pushToken);
     return pushToken;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"umeng_push_plugin application didReceiveRemoteNotification userInfo: %@", userInfo);
     [self didReceiveRemoteNotification:userInfo];
 //    [UMessage setAutoAlert:NO];
 //    [UMessage didReceiveRemoteNotification:userInfo];
@@ -147,9 +158,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"umeng_push device token %@", deviceToken);
+    NSLog(@"umeng_push_plugin application didRegisterForRemoteNotificationsWithDeviceToken%@", deviceToken);
     [_channel invokeMethod:@"onToken" arguments:[self stringDevicetoken:deviceToken]];
 }
-
 @end
 
