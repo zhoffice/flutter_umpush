@@ -19,7 +19,7 @@
         <!-- 离线唤醒，使用URL_SCHEME，例如 myproject_url://xxxxxx?order_id=123455554 -->
         <meta-data android:name="URL_SCHEME" android:value="myproject_url">
         </meta-data>
-        <activity android:name="com.github.flutterumupushexample.MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+        <activity android:name="com.github.flutterumpushexample.MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
             <meta-data android:name="io.flutter.app.android.SplashScreenUntilFirstFrame" android:value="true" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
