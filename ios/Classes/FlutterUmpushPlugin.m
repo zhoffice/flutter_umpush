@@ -46,7 +46,9 @@
             [_channel invokeMethod:@"onLaunch" arguments:_launchNotification];
         }
         result(nil);
-    } else {
+    }else if([@"test" isEqualToString:method]) {
+        result(@"hello");
+    }else {
         result(FlutterMethodNotImplemented);
     }
 }
