@@ -14,7 +14,7 @@ class FlutterUmpush {
         _platform = platform;
 
   static final FlutterUmpush _instance = new FlutterUmpush.private(
-      const MethodChannel('flutter_umupush'), const LocalPlatform());
+      const MethodChannel('flutter_umpush'), const LocalPlatform());
 
   final MethodChannel _channel;
   final Platform _platform;

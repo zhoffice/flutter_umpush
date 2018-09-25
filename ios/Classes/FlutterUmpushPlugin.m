@@ -18,7 +18,7 @@
 }
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"flutter_umupush"
+      methodChannelWithName:@"flutter_umpush"
             binaryMessenger:[registrar messenger]];
     FlutterUmpushPlugin *instance =[[FlutterUmpushPlugin alloc] initWithChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
