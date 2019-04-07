@@ -30,6 +30,7 @@
 4. 离线唤醒  需要申请小米、华为、魅族的帐号，请严格参考这个文档进行：https://developer.umeng.com/docs/66632/detail/66744#h1--push-6
 
    有不懂就问他们的在线客服吧。
+   5. 备注：application的name修改为com.github.flutterumpush.UmengApplication，否则无法通过
 
 # ios 平台
 
