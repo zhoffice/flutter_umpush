@@ -20,7 +20,7 @@
         <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
         <action android:name="com.meizu.c2dm.intent.RECEIVE" />
         <!-- example程序包名字-->
-        <category android:name="com.mycompany.myproject"></category>
+        <category android:name="com.cnwidsom.bcia_flutter"></category>
       </intent-filter>
     </receiver>
   </application>

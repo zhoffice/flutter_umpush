@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.mycompany.myproject"
+        applicationId "com.cnwidsom.bcia_flutter"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()
@@ -42,7 +42,7 @@ android {
         ndk {
             moduleName "app"
             //设置支持的SO库架构
-            abiFilters 'armeabi-v7a'//,'armeabi','arm64-v8a'
+            abiFilters 'armeabi-v7a','armeabi','arm64-v8a'
         }
     }
 

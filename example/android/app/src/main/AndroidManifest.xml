@@ -1,12 +1,12 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.mycompany.myproject">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.cnwidsom.bcia_flutter">
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 这里需要替换Application-->
     <application android:name="com.github.flutterumpush.UmengApplication" android:label="flutter_umpush_example" android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="UMENG_APPKEY" android:value="从友盟后台拷贝的APPKEY">
+        <meta-data android:name="UMENG_APPKEY" android:value="5d9079154ca3578a63000dd8">
         </meta-data>
-        <meta-data android:name="UMENG_MESSAGE_SECRET" android:value="从友盟后台拷贝的MESSAGE_SECRET">
+        <meta-data android:name="UMENG_MESSAGE_SECRET" android:value="85f9f3044971163fb1da80d40e91ffe9">
         </meta-data>
-        <meta-data android:name="UMENG_CHANNEL" android:value="友盟渠道名字" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="全渠道" />
         <meta-data android:name="MZ_APP_ID" android:value="从友盟后台拷贝的魅族_APP_ID">
         </meta-data>
         <meta-data android:name="MZ_APP_KEY" android:value="从友盟后台拷贝的魅族_APP_ID">
